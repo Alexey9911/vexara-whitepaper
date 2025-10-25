@@ -1,0 +1,667 @@
+openapi: 3.0.0
+info:
+  title: Vexara API
+  description: Decentralized marketplace for tokenized AI Agents on Solana blockchain - Deploy, trade, and monetize autonomous AI systems
+  version: 1.0.0
+  contact:
+    name: Vexara API Support
+    url: https://vexara.io/support
+    email: api@vexara.io
+
+servers:
+  - url: https://api.vexara.io/v1
+    description: Production server
+  - url: https://sandbox.vexara.io/v1
+    description: Sandbox server
+
+security:
+  - BearerAuth: []
+
+paths:
+  # AI Agent Management
+  /agents/deploy:
+    post:
+      tags:
+        - AI Agent Management
+      summary: Deploy AI Agent
+      description: Deploy a new tokenized AI Agent to the Vexara marketplace
+      operationId: deployAgent
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - name
+                - category
+                - model
+                - initialSupply
+              properties:
+                name:
+                  type: string
+                  example: "Trading Strategy Agent"
+                description:
+                  type: string
+                  example: "Automated DeFi trading agent with risk management"
+                category:
+                  type: string
+                  enum: [trading, analytics, social, gaming, defi, nft, automation]
+                  example: "trading"
+                model:
+                  type: string
+                  enum: [gpt-4, gpt-3.5-turbo, claude-3, llama-2]
+                  example: "gpt-4"
+                capabilities:
+                  type: array
+                  items:
+                    type: string
+                  example: ["price_analysis", "portfolio_management", "risk_assessment"]
+                initialSupply:
+                  type: number
+                  example: 1000000
+                  description: Total token supply for the agent
+                pricePerToken:
+                  type: number
+                  format: decimal
+                  example: 0.01
+                  description: Initial price in SOL
+                revenueShare:
+                  type: number
+                  format: decimal
+                  example: 0.30
+                  description: Percentage of revenue shared with token holders (0-1)
+      responses:
+        "201":
+          description: AI Agent deployed successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  agentId:
+                    type: string
+                    example: "agent_abc123def456"
+                  name:
+                    type: string
+                    example: "Trading Strategy Agent"
+                  tokenAddress:
+                    type: string
+                    example: "7xKXtg2CW87d97TXJSDpbD5jBkheTqA83TZRuJosgAsU"
+                  marketCap:
+                    type: number
+                    format: decimal
+                    example: 10000.00
+                  holders:
+                    type: number
+                    example: 1
+                  status:
+                    type: string
+                    enum: [active, paused, deprecated]
+                    example: "active"
+                  deployedAt:
+                    type: string
+                    format: date-time
+
+  /agents:
+    get:
+      tags:
+        - AI Agent Management
+      summary: List AI Agents
+      description: Retrieve all AI Agents in the marketplace with filtering options
+      operationId: listAgents
+      parameters:
+        - name: category
+          in: query
+          description: Filter by agent category
+          required: false
+          schema:
+            type: string
+            enum: [trading, analytics, social, gaming, defi, nft, automation]
+        - name: sortBy
+          in: query
+          description: Sort field
+          required: false
+          schema:
+            type: string
+            enum: [marketCap, volume24h, holders, deployedAt, performance]
+            default: "marketCap"
+        - name: page
+          in: query
+          schema:
+            type: integer
+            default: 1
+        - name: limit
+          in: query
+          schema:
+            type: integer
+            default: 25
+            maximum: 100
+      responses:
+        "200":
+          description: Agents retrieved successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  agents:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        agentId:
+                          type: string
+                          example: "agent_abc123"
+                        name:
+                          type: string
+                          example: "Trading Strategy Agent"
+                        category:
+                          type: string
+                          example: "trading"
+                        tokenAddress:
+                          type: string
+                        marketCap:
+                          type: number
+                          format: decimal
+                          example: 50000.00
+                        price:
+                          type: number
+                          format: decimal
+                          example: 0.05
+                        volume24h:
+                          type: number
+                          format: decimal
+                          example: 5000.00
+                        holders:
+                          type: number
+                          example: 234
+                        performance:
+                          type: object
+                          properties:
+                            totalRevenue:
+                              type: number
+                              format: decimal
+                            tasksCompleted:
+                              type: number
+                            successRate:
+                              type: number
+                              format: decimal
+                  pagination:
+                    type: object
+                    properties:
+                      total:
+                        type: number
+                      page:
+                        type: number
+                      limit:
+                        type: number
+                      hasMore:
+                        type: boolean
+
+  /agents/{agentId}:
+    get:
+      tags:
+        - AI Agent Management
+      summary: Get Agent Details
+      description: Retrieve detailed information about a specific AI Agent
+      operationId: getAgentDetails
+      parameters:
+        - name: agentId
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Agent details retrieved successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  agentId:
+                    type: string
+                  name:
+                    type: string
+                  description:
+                    type: string
+                  category:
+                    type: string
+                  model:
+                    type: string
+                  capabilities:
+                    type: array
+                    items:
+                      type: string
+                  tokenAddress:
+                    type: string
+                  creator:
+                    type: string
+                  tokenomics:
+                    type: object
+                    properties:
+                      totalSupply:
+                        type: number
+                      circulatingSupply:
+                        type: number
+                      price:
+                        type: number
+                        format: decimal
+                      marketCap:
+                        type: number
+                        format: decimal
+                      revenueShare:
+                        type: number
+                        format: decimal
+                  performance:
+                    type: object
+                    properties:
+                      totalRevenue:
+                        type: number
+                        format: decimal
+                      tasksCompleted:
+                        type: number
+                      successRate:
+                        type: number
+                        format: decimal
+                      averageResponseTime:
+                        type: number
+                        description: in milliseconds
+                  statistics:
+                    type: object
+                    properties:
+                      holders:
+                        type: number
+                      volume24h:
+                        type: number
+                        format: decimal
+                      priceChange24h:
+                        type: number
+                        format: decimal
+                  status:
+                    type: string
+                    enum: [active, paused, deprecated]
+                  deployedAt:
+                    type: string
+                    format: date-time
+
+    patch:
+      tags:
+        - AI Agent Management
+      summary: Update Agent
+      description: Update AI Agent configuration (only by creator)
+      operationId: updateAgent
+      parameters:
+        - name: agentId
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                description:
+                  type: string
+                status:
+                  type: string
+                  enum: [active, paused]
+                revenueShare:
+                  type: number
+                  format: decimal
+      responses:
+        "200":
+          description: Agent updated successfully
+
+  # Trading & Marketplace
+  /marketplace/buy:
+    post:
+      tags:
+        - Trading
+      summary: Buy Agent Tokens
+      description: Purchase tokens of an AI Agent
+      operationId: buyTokens
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - agentId
+                - amount
+              properties:
+                agentId:
+                  type: string
+                  example: "agent_abc123"
+                amount:
+                  type: number
+                  example: 100
+                  description: Number of tokens to buy
+                maxPrice:
+                  type: number
+                  format: decimal
+                  description: Maximum price per token (slippage protection)
+      responses:
+        "200":
+          description: Purchase successful
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  transactionId:
+                    type: string
+                  signature:
+                    type: string
+                  amount:
+                    type: number
+                  totalCost:
+                    type: number
+                    format: decimal
+                  pricePerToken:
+                    type: number
+                    format: decimal
+
+  /marketplace/sell:
+    post:
+      tags:
+        - Trading
+      summary: Sell Agent Tokens
+      description: Sell tokens of an AI Agent
+      operationId: sellTokens
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - agentId
+                - amount
+              properties:
+                agentId:
+                  type: string
+                amount:
+                  type: number
+                minPrice:
+                  type: number
+                  format: decimal
+                  description: Minimum price per token (slippage protection)
+      responses:
+        "200":
+          description: Sale successful
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  transactionId:
+                    type: string
+                  signature:
+                    type: string
+                  amount:
+                    type: number
+                  totalReceived:
+                    type: number
+                    format: decimal
+
+  # Agent Execution
+  /agents/{agentId}/execute:
+    post:
+      tags:
+        - Agent Execution
+      summary: Execute Agent Task
+      description: Request the AI Agent to perform a specific task
+      operationId: executeTask
+      parameters:
+        - name: agentId
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - task
+              properties:
+                task:
+                  type: string
+                  example: "Analyze SOL price trends for the last 24h"
+                parameters:
+                  type: object
+                  example: {"timeframe": "24h", "indicators": ["RSI", "MACD"]}
+                priority:
+                  type: string
+                  enum: [low, normal, high]
+                  default: "normal"
+      responses:
+        "200":
+          description: Task submitted successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  taskId:
+                    type: string
+                    example: "task_xyz789"
+                  status:
+                    type: string
+                    enum: [queued, processing, completed, failed]
+                    example: "queued"
+                  estimatedCompletion:
+                    type: number
+                    description: Estimated seconds until completion
+                  cost:
+                    type: number
+                    format: decimal
+                    description: Cost in agent tokens
+
+  /tasks/{taskId}:
+    get:
+      tags:
+        - Agent Execution
+      summary: Get Task Result
+      description: Retrieve the result of an executed task
+      operationId: getTaskResult
+      parameters:
+        - name: taskId
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Task result retrieved
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  taskId:
+                    type: string
+                  agentId:
+                    type: string
+                  status:
+                    type: string
+                    enum: [queued, processing, completed, failed]
+                  result:
+                    type: object
+                    description: The output from the AI Agent
+                  cost:
+                    type: number
+                    format: decimal
+                  executionTime:
+                    type: number
+                    description: in milliseconds
+                  createdAt:
+                    type: string
+                    format: date-time
+                  completedAt:
+                    type: string
+                    format: date-time
+
+  # Portfolio & Analytics
+  /portfolio:
+    get:
+      tags:
+        - Portfolio
+      summary: Get User Portfolio
+      description: Retrieve user's AI Agent token holdings
+      operationId: getPortfolio
+      responses:
+        "200":
+          description: Portfolio retrieved successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  totalValue:
+                    type: number
+                    format: decimal
+                    description: Total portfolio value in SOL
+                  holdings:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        agentId:
+                          type: string
+                        agentName:
+                          type: string
+                        tokenAddress:
+                          type: string
+                        balance:
+                          type: number
+                        currentPrice:
+                          type: number
+                          format: decimal
+                        value:
+                          type: number
+                          format: decimal
+                        pnl:
+                          type: number
+                          format: decimal
+                        pnlPercentage:
+                          type: number
+                          format: decimal
+                  earnedRevenue:
+                    type: number
+                    format: decimal
+                    description: Total revenue earned from holdings
+
+  /analytics/trending:
+    get:
+      tags:
+        - Analytics
+      summary: Get Trending Agents
+      description: Retrieve trending AI Agents based on various metrics
+      operationId: getTrending
+      parameters:
+        - name: timeframe
+          in: query
+          schema:
+            type: string
+            enum: ["1h", "24h", "7d"]
+            default: "24h"
+        - name: metric
+          in: query
+          schema:
+            type: string
+            enum: [volume, holders, performance, priceChange]
+            default: "volume"
+      responses:
+        "200":
+          description: Trending agents retrieved
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  trending:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        agentId:
+                          type: string
+                        name:
+                          type: string
+                        category:
+                          type: string
+                        change:
+                          type: number
+                          format: decimal
+                          description: Percentage change in the metric
+                        currentValue:
+                          type: number
+                          format: decimal
+
+  /analytics/performance/{agentId}:
+    get:
+      tags:
+        - Analytics
+      summary: Get Agent Performance History
+      description: Retrieve historical performance data for an AI Agent
+      operationId: getPerformanceHistory
+      parameters:
+        - name: agentId
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: timeframe
+          in: query
+          schema:
+            type: string
+            enum: ["24h", "7d", "30d", "90d"]
+            default: "7d"
+      responses:
+        "200":
+          description: Performance history retrieved
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  agentId:
+                    type: string
+                  data:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        timestamp:
+                          type: string
+                          format: date-time
+                        price:
+                          type: number
+                          format: decimal
+                        volume:
+                          type: number
+                          format: decimal
+                        holders:
+                          type: number
+                        revenue:
+                          type: number
+                          format: decimal
+                        tasksCompleted:
+                          type: number
+
+components:
+  securitySchemes:
+    BearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+      description: JWT Bearer token authentication. Include the token in the Authorization header

@@ -1,0 +1,146 @@
+---
+title: "Quickstart"
+description: "Get started with VEXARA AI Agents in under 5 minutes"
+icon: "bolt"
+---
+
+## Prerequisites
+
+Before integrating VEXARA, ensure you have:
+
+- Node.js 18.0 or higher
+- A Solana wallet address to track
+- API key from VEXARA dashboard
+
+---
+
+## Installation
+
+Install the VEXARA SDK via npm or yarn:
+
+```bash path=null start=null
+npm install @vexara/sdk
+```
+
+```bash path=null start=null
+yarn add @vexara/sdk
+```
+
+---
+
+## Authentication
+
+Initialize the SDK with your API key:
+
+```typescript path=null start=null
+import { vexara } from '@vexara/sdk';
+
+const client = new vexara({
+  apiKey: process.env.VEXARA_API_KEY,
+  network: 'mainnet-beta'
+});
+```
+
+<Info>
+Store your API key in environment variables. Never commit keys to version control.
+</Info>
+
+---
+
+## Basic Usage
+
+### Track a Wallet
+
+```typescript path=null start=null
+const walletAddress = '7xKXtg2CW87d97TXJSDpbD5jBkheTqA83TZRuJosgAsU';
+
+const walletData = await client.wallet.track(walletAddress);
+
+console.log(walletData);
+// Output:
+// {
+//   address: '7xKXtg2CW87d97TXJSDpbD5jBkheTqA83TZRuJosgAsU',
+//   balance: 125.42,
+//   tokenAccounts: 23,
+//   lastActivity: '2025-10-16T14:21:00Z'
+// }
+```
+
+### Get Transaction History
+
+```typescript path=null start=null
+const transactions = await client.wallet.getTransactions(
+  walletAddress,
+  { limit: 50, order: 'desc' }
+);
+
+transactions.forEach(tx => {
+  console.log(`${tx.signature}: ${tx.type} - ${tx.amount} SOL`);
+});
+```
+
+### Real-Time Monitoring
+
+```typescript path=null start=null
+const subscription = client.wallet.subscribe(walletAddress);
+
+subscription.on('transaction', (tx) => {
+  console.log('New transaction:', tx);
+});
+
+subscription.on('balance', (balance) => {
+  console.log('Balance updated:', balance);
+});
+```
+
+---
+
+## Response Format
+
+All API responses follow this structure:
+
+```json path=null start=null
+{
+  "success": true,
+  "data": { },
+  "timestamp": "2025-10-16T14:21:06Z",
+  "rateLimit": {
+    "remaining": 98,
+    "reset": 1728936000
+  }
+}
+```
+
+---
+
+## Error Handling
+
+```typescript path=null start=null
+try {
+  const data = await client.wallet.track(walletAddress);
+} catch (error) {
+  if (error.code === 'RATE_LIMIT_EXCEEDED') {
+    console.log('Too many requests. Retry after:', error.retryAfter);
+  } else if (error.code === 'INVALID_ADDRESS') {
+    console.log('Wallet address is invalid');
+  } else {
+    console.error('Unknown error:', error.message);
+  }
+}
+```
+
+---
+
+## Next Steps
+
+<Steps>
+  <Step title="Explore SDK">
+    Learn about advanced features and configuration options
+  </Step>
+  <Step title="API Reference">
+    View complete API documentation and endpoints
+  </Step>
+  <Step title="Use Cases">
+    Discover real-world implementation examples
+  </Step>
+</Steps>

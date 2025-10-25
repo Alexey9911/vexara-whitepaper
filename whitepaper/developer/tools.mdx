@@ -1,0 +1,164 @@
+---
+title: "Tools"
+description: "Developer tools for building and managing AI Agents"
+icon: "wrench"
+---
+
+## CLI Tool
+
+The VEXARA CLI provides command-line access to all platform features.
+
+### Installation
+
+```bash path=null start=null
+npm install -g @vexara/cli
+```
+
+### Authentication
+
+```bash path=null start=null
+vexara auth login
+```
+
+### Commands
+
+**Track a wallet**
+```bash path=null start=null
+vexara wallet track 7xKXtg2CW87d97TXJSDpbD5jBkheTqA83TZRuJosgAsU
+```
+
+**Get transaction history**
+```bash path=null start=null
+vexara wallet txs 7xKXtg2CW87d97TXJSDpbD5jBkheTqA83TZRuJosgAsU --limit 20
+```
+
+**Export data to CSV**
+```bash path=null start=null
+vexara export --wallet ADDRESS --format csv --output data.csv
+```
+
+---
+
+## Browser Extension
+
+Install the VEXARA browser extension for Chrome, Firefox, and Brave.
+
+### Features
+
+- One-click wallet tracking from Solscan and Solana Explorer
+- Real-time notifications for tracked wallets
+- Portfolio overview with profit/loss calculations
+- Quick access to transaction history
+
+### Installation
+
+Available on Chrome Web Store and Firefox Add-ons marketplace.
+
+---
+
+## Webhook Integration
+
+Receive real-time notifications via HTTP callbacks.
+
+### Setup
+
+Configure webhooks in your dashboard at `app.vexara.io/webhooks`.
+
+### Event Types
+
+| Event | Description | Payload |
+|-------|-------------|---------|
+| `wallet.transaction` | New transaction detected | Transaction object |
+| `wallet.balance` | Balance changed | Balance data |
+| `wallet.token` | Token account updated | Token info |
+| `alert.triggered` | Custom alert fired | Alert details |
+
+### Webhook Payload
+
+```json path=null start=null
+{
+  "event": "wallet.transaction",
+  "timestamp": 1728936066,
+  "data": {
+    "address": "7xKXtg2CW87d97TXJSDpbD5jBkheTqA83TZRuJosgAsU",
+    "signature": "3xZR8...",
+    "type": "transfer",
+    "amount": 10.5,
+    "from": "...",
+    "to": "...",
+    "blockTime": 1728936000
+  }
+}
+```
+
+### Security
+
+All webhook requests include a signature header for verification:
+
+```typescript path=null start=null
+import crypto from 'crypto';
+
+function verifyWebhook(payload: string, signature: string, secret: string): boolean {
+  const hmac = crypto.createHmac('sha256', secret);
+  const digest = hmac.update(payload).digest('hex');
+  return crypto.timingSafeEqual(
+    Buffer.from(signature),
+    Buffer.from(digest)
+  );
+}
+```
+
+---
+
+## GraphQL Playground
+
+Interactive GraphQL API explorer available at `api.vexara.io/graphql`.
+
+### Example Query
+
+```graphql path=null start=null
+query GetWallet($address: String!) {
+  wallet(address: $address) {
+    address
+    balance
+    transactions(limit: 10) {
+      signature
+      type
+      amount
+      blockTime
+    }
+    tokens {
+      mint
+      balance
+      symbol
+    }
+  }
+}
+```
+
+---
+
+## Testing Sandbox
+
+Use our testing environment with mock data for development.
+
+**Endpoint:** `https://sandbox.vexara.io`
+
+**Test Wallets:**
+- `TEST_WALLET_ACTIVE` - Simulates active trading wallet
+- `TEST_WALLET_WHALE` - High-value wallet with large transactions
+- `TEST_WALLET_NFT` - NFT-focused wallet
+
+---
+
+## Postman Collection
+
+Download our complete API collection for Postman:
+
+[Download Collection](https://api.vexara.io/postman/collection.json)
+
+Includes pre-configured requests for all endpoints with example responses.
+
+<Info>
+All tools are open source and available on our GitHub repository.
+</Info>

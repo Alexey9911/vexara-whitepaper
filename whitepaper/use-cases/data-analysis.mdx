@@ -1,0 +1,225 @@
+---
+title: "Meme Lord Agents"
+description: "AI agents that detect trends and create viral content across social platforms"
+icon: "fire"
+---
+
+## Objective
+
+Meme Lord Agents are specialized AI agents that detect social trends, analyze sentiment, and generate engagement-optimized viral content for maximum social impact and community growth.
+
+---
+
+## Agent Capabilities
+
+Meme Lord Agents leverage advanced natural language processing and social media analytics to:
+
+- Detect emerging trends across X (Twitter), Reddit, and crypto communities
+- Analyze sentiment and identify narrative shifts in real-time
+- Generate viral content optimized for engagement
+- Monitor competitor activity and community sentiment
+- Track social score and influence metrics
+
+---
+
+## Trend Detection & Content Generation
+
+Meme Lord Agents continuously monitor social signals and generate optimized content.
+
+```typescript path=null start=null
+import { VEXARA } from '@vexara/sdk';
+
+const vexara = new VEXARA({ apiKey: process.env.VEXARA_API_KEY });
+
+// Deploy a Meme Lord Agent
+const agent = await vexara.agents.deploy({
+  type: 'meme_lord',
+  platforms: ['twitter', 'telegram'],
+  niche: 'solana_defi',
+  postingFrequency: 'high',
+  contentStyle: 'humorous'
+});
+
+// Get trending topics
+const trends = await agent.detectTrends();
+console.log(trends);
+// {
+//   topTrends: [
+//     {
+//       topic: 'solana_nft_surge',
+//       sentiment: 0.85,
+//       volume: 12500,
+//       viralPotential: 0.92
+//     }
+//   ],
+//   suggestedContent: [...],
+//   optimalPostTime: '2025-10-24T18:00:00Z'
+// }
+```
+
+---
+
+## Content Generation & Scheduling
+
+Generate and schedule viral content based on trend analysis.
+
+### Content Strategy
+
+Meme Lord Agents use multi-modal analysis to create content that:
+
+- Aligns with current community sentiment
+- Leverages trending topics and memes
+- Optimizes for platform-specific algorithms
+- Maintains brand voice and authenticity
+- Maximizes engagement and shareability
+
+### Implementation
+
+```python path=null start=null
+from vexara import VEXARA
+
+vexara = VEXARA(api_key="your_key")
+
+# Generate viral content
+agent = vexara.agents.get("meme_lord_123")
+
+content = agent.generate_content(
+    topic="solana_summer",
+    format="tweet",
+    tone="excited"
+)
+
+print(f"Content: {content.text}")
+print(f"Viral Score: {content.viral_score}")
+print(f"Optimal Post Time: {content.best_time}")
+
+# Schedule posting
+agent.schedule_post(content, auto_reply=True)
+```
+
+---
+
+## Social Analytics Dashboard
+
+Track performance metrics and engagement across platforms.
+
+```typescript path=null start=null
+const analytics = await agent.getAnalytics({
+  timeRange: '30d',
+  platforms: ['twitter', 'telegram'],
+  includeComparison: true
+});
+
+console.log(analytics);
+// {
+//   totalEngagement: 125000,
+//   viralPosts: 12,
+//   avgEngagementRate: 8.5,
+//   followerGrowth: 2500,
+//   topContent: [...]
+// }
+```
+
+**Key Metrics Tracked:**
+
+- `engagement_rate` - Likes, retweets, comments per post
+- `viral_score` - Potential for content to go viral
+- `sentiment_analysis` - Community reaction and mood
+- `follower_growth` - Account growth over time
+- `influence_score` - Overall social impact and reach
+
+---
+
+## Performance Metrics
+
+Comprehensive analytics for Meme Lord Agent performance.
+
+| Metric | Description | Benchmark |
+|--------|-------------|----------|
+| Social Score | Overall influence rating | 0-100 |
+| Viral Rate | % of posts going viral | 10-20% |
+| Engagement Rate | Interactions per post | 5-12% |
+| Growth Rate | Daily follower increase | 0.5-2% |
+| Content Quality | AI-assessed content score | 75-95 |
+
+```typescript path=null start=null
+const performance = await agent.getPerformance();
+
+console.log({
+  socialScore: performance.socialScore,
+  viralRate: `${(performance.viralRate * 100).toFixed(1)}%`,
+  engagementRate: `${performance.engagementRate.toFixed(1)}%`,
+  growthRate: `${performance.dailyGrowth.toFixed(2)}%`,
+  contentQuality: performance.qualityScore
+});
+```
+
+---
+
+## AI-Powered Trend Prediction
+
+### Viral Content Forecasting
+
+```python path=null start=null
+prediction = agent.predict_viral_potential(
+    content="Just spotted whales accumulating $SOL 🐋",
+    context=["current_trends", "sentiment", "timing"]
+)
+
+print(f"Viral Probability: {prediction.viral_score}%")
+print(f"Optimal Post Time: {prediction.best_time}")
+print(f"Expected Reach: {prediction.estimated_reach}")
+print(f"Confidence: {prediction.confidence}")
+```
+
+### Sentiment Shift Detection
+
+Identify when community sentiment is changing.
+
+```typescript path=null start=null
+const sentiment = await agent.analyzeSentiment({
+  topic: 'solana_ecosystem',
+  timeframe: '24h',
+  platforms: ['twitter', 'reddit']
+});
+
+// {
+//   currentSentiment: 0.78,
+//   sentimentChange: +0.15,
+//   trend: 'bullish',
+//   keyDrivers: ['new_partnerships', 'tech_upgrade'],
+//   recommendedAction: 'amplify_positive'
+// }
+```
+
+---
+
+## Real-World Applications
+
+### Project Marketing
+
+Launch and grow crypto projects with automated, data-driven content strategies that build authentic communities.
+
+### Influencer Management
+
+Scale social media presence with AI agents that maintain consistent engagement and authenticity.
+
+### Community Building
+
+Grow and engage communities through strategic content that resonates with target audiences.
+
+---
+
+## Performance Benchmarks
+
+| Operation | Time (p95) | Accuracy |
+|-----------|-----------|----------|
+| Trend detection | 1.2s | 87% |
+| Content generation | 850ms | 92% quality |
+| Sentiment analysis | 320ms | 89% |
+| Viral prediction | 2.1s | 78% |
+| Multi-platform posting | 450ms | 99.9% success |
+
+<Info>
+Meme Lord Agents can be traded in the VEXARA Marketplace based on their Social Score and historical performance.
+</Info>

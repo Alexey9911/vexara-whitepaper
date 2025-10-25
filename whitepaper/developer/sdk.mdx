@@ -1,0 +1,197 @@
+---
+title: "SDK Reference"
+description: "Complete SDK documentation for deploying and managing AI Agents"
+icon: "code"
+---
+
+## Overview
+
+The VEXARA SDK provides a type-safe interface for deploying, managing, and trading tokenized AI Agents. Available for TypeScript (Node.js, Browser) and Python 3.9+.
+
+---
+
+## Configuration Options
+
+```typescript path=null start=null
+interface vexaraConfig {
+  apiKey: string;
+  network?: 'mainnet-beta' | 'devnet' | 'testnet';
+  rpcEndpoint?: string;
+  timeout?: number;
+  retryAttempts?: number;
+  debug?: boolean;
+}
+```
+
+| Parameter | Type | Default | Description |
+|-----------|------|---------|-------------|
+| apiKey | string | Required | Your API authentication key |
+| network | string | mainnet-beta | Solana network to connect |
+| rpcEndpoint | string | Auto | Custom RPC endpoint URL |
+| timeout | number | 30000 | Request timeout in milliseconds |
+| retryAttempts | number | 3 | Number of retry attempts on failure |
+| debug | boolean | false | Enable debug logging |
+
+---
+
+## Wallet Module
+
+### `wallet.track(address: string)`
+
+Begin tracking a Solana wallet address.
+
+**Parameters:**
+- `address` - Valid Solana wallet address (base58 encoded)
+
+**Returns:**
+```typescript path=null start=null
+interface WalletTrackingData {
+  address: string;
+  balance: number;
+  tokenAccounts: number;
+  nftCount: number;
+  lastActivity: string;
+  riskScore: number;
+  tags: string[];
+}
+```
+
+### `wallet.getTransactions(address, options)`
+
+Retrieve transaction history for a wallet.
+
+**Options:**
+```typescript path=null start=null
+interface TransactionOptions {
+  limit?: number;        // Max 1000
+  offset?: number;
+  order?: 'asc' | 'desc';
+  startTime?: number;    // Unix timestamp
+  endTime?: number;
+  type?: 'all' | 'transfer' | 'swap' | 'stake';
+}
+```
+
+### `wallet.getTokenAccounts(address)`
+
+Get all SPL token accounts owned by the wallet.
+
+**Returns:**
+```typescript path=null start=null
+interface TokenAccount {
+  mint: string;
+  balance: number;
+  decimals: number;
+  uiAmount: number;
+  symbol: string;
+  name: string;
+  logoUri?: string;
+}[]
+```
+
+---
+
+## Analytics Module
+
+### `analytics.getPrediction(address)`
+
+Get AI-powered predictions for wallet behavior.
+
+**Returns:**
+```typescript path=null start=null
+interface Prediction {
+  address: string;
+  nextTransactionProbability: number;
+  estimatedTimeToNext: number;
+  likelyAction: 'buy' | 'sell' | 'transfer' | 'stake';
+  confidence: number;
+  factors: string[];
+}
+```
+
+### `analytics.getAnomalies(address, timeRange)`
+
+Detect anomalous transaction patterns.
+
+---
+
+## WebSocket Streaming
+
+Real-time wallet monitoring via WebSocket connections.
+
+```typescript path=null start=null
+const stream = client.wallet.subscribe(address);
+
+stream.on('transaction', (tx: Transaction) => {
+  console.log('New TX:', tx.signature);
+});
+
+stream.on('balance', (balance: number) => {
+  console.log('Balance:', balance);
+});
+
+stream.on('token', (token: TokenUpdate) => {
+  console.log('Token update:', token);
+});
+
+stream.on('error', (err: Error) => {
+  console.error('Stream error:', err);
+});
+
+// Unsubscribe
+stream.close();
+```
+
+---
+
+## Rate Limits
+
+| Tier | Requests/Min | WebSocket Connections | Historical Data |
+|------|--------------|----------------------|-----------------|
+| Free | 100 | 5 | 30 days |
+| Developer | 500 | 25 | 90 days |
+| Pro | 2000 | 100 | 1 year |
+| Enterprise | Unlimited | Unlimited | 5 years |
+
+---
+
+## Python SDK
+
+```python path=null start=null
+from vexara import vexara
+
+client = vexara(
+    api_key="your_api_key",
+    network="mainnet-beta"
+)
+
+# Track wallet
+wallet = client.wallet.track("7xKXtg2CW87d97TXJSDpbD5jBkheTqA83TZRuJosgAsU")
+print(wallet.balance)
+
+# Get transactions
+transactions = client.wallet.get_transactions(
+    wallet.address,
+    limit=50
+)
+
+for tx in transactions:
+    print(f"{tx.signature}: {tx.type}")
+```
+
+---
+
+## Error Codes
+
+| Code | Description | Action |
+|------|-------------|--------|
+| 1001 | Invalid API key | Check credentials |
+| 1002 | Rate limit exceeded | Implement backoff |
+| 1003 | Invalid wallet address | Validate input |
+| 2001 | Network error | Retry request |
+| 2002 | Timeout | Increase timeout value |
+| 3001 | Internal server error | Contact support |
+
+<Info>
+All SDK methods return Promises in TypeScript and coroutines in Python async contexts.
+</Info>

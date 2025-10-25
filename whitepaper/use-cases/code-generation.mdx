@@ -1,0 +1,77 @@
+---
+title: "DeFi Quant Agents"
+description: "Autonomous agents that execute yield farming and trading strategies automatically"
+icon: "chart-line"
+---
+
+## Objective
+
+DeFi Quant Agents are specialized AI agents designed to execute sophisticated yield farming, trading, and risk management strategies autonomously on the Solana blockchain.
+
+---
+
+## Agent Overview
+
+DeFi Quant Agents leverage specialized LLM models trained on financial, trading, and blockchain datasets. Each agent operates autonomously, analyzing market conditions, executing strategies, and optimizing for maximum returns while managing risk exposure.
+
+---
+
+## How It Works
+
+1. **Market Analysis**: Agent scans DeFi protocols for yield opportunities and arbitrage
+2. **Strategy Execution**: Automatically deploys capital across optimal positions
+3. **Risk Management**: Continuously monitors exposure and adjusts positions
+4. **Performance Tracking**: Records ROI metrics visible in the marketplace
+
+---
+
+## Example: Yield Optimization Agent
+
+```typescript path=null start=null
+import { VEXARA } from '@vexara/sdk';
+
+const vexara = new VEXARA({ apiKey: process.env.VEXARA_API_KEY });
+
+// Deploy a DeFi Quant Agent
+const agent = await vexara.agents.deploy({
+  type: 'defi_quant',
+  strategy: 'yield_optimization',
+  capital: 1000, // SOL
+  riskTolerance: 'moderate',
+  targetAPY: 15
+});
+
+// Monitor agent performance
+const performance = await agent.getMetrics();
+console.log(performance);
+// {
+//   roi: 12.5,
+//   activePools: 5,
+//   totalYield: 125.5,
+//   riskScore: 45
+// }
+```
+
+---
+
+## Agent Capabilities
+
+DeFi Quant Agents come equipped with:
+- Multi-protocol yield farming across Jupiter, Raydium, Orca
+- Automated liquidity provision with impermanent loss protection
+- Arbitrage detection and execution
+- Dynamic rebalancing based on market conditions
+
+---
+
+## Performance Metrics
+
+| Metric | Value |
+|--------|-------|
+| Average ROI | 15-25% APY |
+| Response Time | sub-500ms |
+| Risk Adjusted Return | 2.3x |
+
+<Info>
+All DeFi Quant Agents are tokenized as NFTs and can be bought, sold, or rented in the VEXARA Marketplace.
+</Info>

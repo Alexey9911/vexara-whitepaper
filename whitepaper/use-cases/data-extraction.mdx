@@ -1,0 +1,294 @@
+---
+title: "Gamer Agents"
+description: "AI agents that operate autonomously in Web3 gaming ecosystems"
+icon: "gamepad"
+---
+
+## Objective
+
+Gamer Agents are specialized AI agents designed to operate autonomously in Web3 gaming ecosystems, maximizing token rewards, in-game asset accumulation, and sustained value generation through optimized gameplay strategies.
+
+---
+
+## Agent Capabilities
+
+Gamer Agents leverage advanced reinforcement learning and game theory to:
+
+**Strategy Optimization**  
+Master game mechanics and identify optimal strategies for resource accumulation
+
+**Automated Gameplay**  
+Execute repetitive tasks and farming operations 24/7 without fatigue
+
+**Market Intelligence**  
+Monitor in-game economies and execute profitable trades in NFT marketplaces
+
+---
+
+## Supported Game Types
+
+### Play-to-Earn Games
+
+Optimize earning strategies in popular P2E games on Solana.
+
+```typescript path=null start=null
+import { VEXARA } from '@vexara/sdk';
+
+const vexara = new VEXARA({ apiKey: process.env.VEXARA_API_KEY });
+
+// Deploy a Gamer Agent for P2E
+const agent = await vexara.agents.deploy({
+  type: 'gamer',
+  game: 'star_atlas',
+  strategy: 'resource_farming',
+  playStyle: 'aggressive',
+  targetEarnings: 50 // SOL per week
+});
+
+const stats = await agent.getStats();
+console.log(stats);
+// {
+//   tokensEarned: 12.5,
+//   assetsAcquired: 45,
+//   gamesPlayed: 120,
+//   winRate: 0.78
+// }
+```
+
+### NFT Gaming
+
+Maximize value from NFT-based gaming ecosystems.
+
+```typescript path=null start=null
+const nftAgent = await vexara.agents.deploy({
+  type: 'gamer',
+  game: 'genopets',
+  strategy: 'nft_breeding',
+  marketplace: 'magic_eden',
+  budget: 100 // SOL
+});
+```
+
+### PvP Competitions
+
+Compete in player-versus-player tournaments and competitions.
+
+```python path=null start=null
+from vexara import VEXARA
+
+vexara = VEXARA(api_key="your_key")
+
+agent = vexara.agents.deploy(
+    type="gamer",
+    game="aurory",
+    strategy="pvp_competitive",
+    skill_level="expert"
+)
+```
+
+---
+
+## Performance Optimization
+
+### Multi-Game Management
+
+Manage multiple gamer agents across different games simultaneously.
+
+```typescript path=null start=null
+import { VEXARA } from '@vexara/sdk';
+
+const vexara = new VEXARA({ apiKey: process.env.VEXARA_API_KEY });
+
+// Deploy multiple agents
+const agents = await Promise.all([
+  vexara.agents.deploy({ type: 'gamer', game: 'star_atlas' }),
+  vexara.agents.deploy({ type: 'gamer', game: 'genopets' }),
+  vexara.agents.deploy({ type: 'gamer', game: 'aurory' })
+]);
+
+// Monitor all agents
+const portfolio = await vexara.agents.getPortfolio(agents);
+console.log(portfolio);
+// {
+//   totalEarnings: 45.5,
+//   activeAgents: 3,
+//   averageROI: 18.2,
+//   topPerformer: 'star_atlas'
+// }
+```
+
+**Execution:**
+```bash path=null start=null
+vexara agents monitor --all --interval 5m
+```
+
+---
+
+## Agent Learning & Adaptation
+
+### Reinforcement Learning
+
+Agents continuously learn and improve strategies through gameplay.
+
+```typescript path=null start=null
+const learningStats = await agent.getLearningProgress();
+
+console.log(learningStats);
+// {
+//   gamesPlayed: 1250,
+//   strategyVersion: 'v3.2',
+//   skillLevel: 'expert',
+//   improvementRate: 0.12,
+//   adaptationScore: 0.89
+// }
+```
+
+### Strategy Customization
+
+Customize agent behavior and risk tolerance.
+
+```python path=null start=null
+# Configure agent strategy
+agent.configure(
+    risk_tolerance="moderate",
+    farming_priority="tokens",  # or 'nfts', 'both'
+    trading_enabled=True,
+    max_daily_spend=10,  # SOL
+    auto_sell_threshold=0.15  # 15% profit
+)
+```
+
+---
+
+## Real-Time Monitoring
+
+Monitor agent performance and receive notifications.
+
+```typescript path=null start=null
+import { VEXARA } from '@vexara/sdk';
+
+const vexara = new VEXARA({ apiKey: process.env.VEXARA_API_KEY });
+
+// Subscribe to agent events
+const subscription = agent.subscribe();
+
+subscription.on('earnings', (event) => {
+  console.log(`Earned ${event.amount} ${event.token}`);
+});
+
+subscription.on('achievement', (event) => {
+  console.log(`Achievement unlocked: ${event.title}`);
+});
+
+subscription.on('alert', (event) => {
+  if (event.type === 'low_balance') {
+    console.log('Agent needs funding!');
+  }
+});
+
+// Set custom alerts
+agent.setAlert({
+  type: 'earnings_milestone',
+  threshold: 100,  // SOL
+  notification: 'telegram'
+});
+```
+
+---
+
+## Marketplace Integration
+
+Trade gamer agents in the VEXARA Marketplace.
+
+```python path=null start=null
+from vexara import VEXARA
+
+vexara = VEXARA(api_key="your_key")
+
+# List agent for sale
+agent.list_for_sale(
+    price=50,  # $VEXARA tokens
+    include_earnings=True,
+    rental_option=True,
+    rental_rate=5  # per day
+)
+
+# Browse marketplace
+top_agents = vexara.marketplace.browse(
+    agent_type="gamer",
+    sort_by="roi",
+    min_rating=4.5
+)
+
+for agent in top_agents:
+    print(f"{agent.name}: ROI {agent.roi}% - {agent.price} $VEXARA")
+```
+
+---
+
+## Performance Metrics
+
+Key performance indicators for Gamer Agents.
+
+| Metric | Description | Target Range |
+|--------|-------------|-------------|
+| ROI | Return on investment | 15-30% monthly |
+| Win Rate | Game success rate | 70-85% |
+| Uptime | Agent availability | 98-100% |
+| Earnings Per Hour | Token generation rate | 0.5-2 SOL |
+| Skill Level | Agent expertise | Intermediate-Expert |
+
+```typescript path=null start=null
+const metrics = await agent.getMetrics();
+
+console.log({
+  roi: `${metrics.roi.toFixed(1)}%`,
+  winRate: `${(metrics.winRate * 100).toFixed(1)}%`,
+  uptime: `${metrics.uptime.toFixed(2)}%`,
+  earningsPerHour: `${metrics.earningsPerHour} SOL`,
+  skillLevel: metrics.skillLevel
+});
+```
+
+---
+
+## Agent Capabilities Comparison
+
+Compare different Gamer Agent configurations.
+
+| Game | Average ROI | Difficulty | Time to ROI |
+|------|------------|------------|-------------|
+| Star Atlas | 22% monthly | High | 2-3 weeks |
+| Genopets | 18% monthly | Medium | 1-2 weeks |
+| Aurory | 25% monthly | Medium | 1 week |
+| Stepn | 15% monthly | Low | 3-5 days |
+| Nyan Heroes | 20% monthly | High | 2-4 weeks |
+
+---
+
+## Best Practices
+
+**Diversification**  
+Deploy agents across multiple games to reduce risk and maximize returns.
+
+**Monitoring**  
+Set up alerts for critical events and regularly review agent performance.
+
+**Optimization**  
+Continuously adjust strategies based on game updates and market conditions.
+
+```typescript path=null start=null
+// Example: Diversified gaming portfolio
+const portfolio = {
+  starAtlas: { agents: 2, capital: 200 },
+  genopets: { agents: 3, capital: 150 },
+  aurory: { agents: 1, capital: 100 }
+};
+
+const totalROI = await vexara.portfolio.calculateROI(portfolio);
+console.log(`Expected monthly ROI: ${totalROI}%`);
+```
+
+<Info>
+Gamer Agents are tokenized and tradable in the VEXARA Marketplace. Build, optimize, and sell successful gaming strategies.
+</Info>

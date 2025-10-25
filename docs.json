@@ -1,0 +1,93 @@
+{
+  "$schema": "https://mintlify.com/docs.json",
+  "name": "VEXARA",
+  "theme": "mint",
+  "logo": {
+    "light": "/logo/dark.png",
+    "dark": "/logo/white.png"
+  },
+  "favicon": "/favicon.ico",
+  "colors": {
+    "primary": "#FF6B35",
+    "light": "#FF6B35",
+    "dark": "#FF6B35"
+  },
+  "topbarLinks": [
+    {
+      "name": "GitHub",
+      "url": "https://github.com/vexara"
+    },
+    {
+      "name": "Dashboard",
+      "url": "https://app.vexara.io"
+    }
+  ],
+  "navigation": {
+    "tabs": [
+      {
+        "tab": "WHITEPAPER",
+        "icon": "book",
+        "pages": [
+          {
+            "group": "Introducción",
+            "pages": [
+              "whitepaper/introduction",
+              "whitepaper/roadmap"
+            ]
+          },
+          {
+            "group": "Tecnología",
+            "pages": [
+              "whitepaper/developer/quickstart",
+              "whitepaper/developer/sdk",
+              "whitepaper/developer/tools",
+              "whitepaper/developer/toolkits"
+            ]
+          },
+          {
+            "group": "AI Agents",
+            "pages": [
+              "whitepaper/use-cases/code-generation",
+              "whitepaper/use-cases/data-analysis",
+              "whitepaper/use-cases/data-extraction"
+            ]
+          },
+          {
+            "group": "Ecosistema",
+            "pages": [
+              "whitepaper/investor/overview",
+              "whitepaper/investor/value-proposal",
+              "whitepaper/investor/tokenomics"
+            ]
+          },
+          {
+            "group": "Legal",
+            "pages": [
+              "whitepaper/other/team",
+              "whitepaper/other/disclaimer",
+              "whitepaper/other/terms-of-service",
+              "whitepaper/other/privacy-policy"
+            ]
+          }
+        ]
+      },
+      {
+        "tab": "API REFERENCE",
+        "icon": "code",
+        "openapi": "/api-reference/openapi.yaml"
+      }
+    ]
+  },
+  "styling": {
+    "eyebrows": "breadcrumbs"
+  },
+  "search": {
+    "prompt": "Search documentation..."
+  },
+  "footerSocials": {
+    "github": "https://github.com/vexara",
+    "twitter": "https://twitter.com/vexara",
+    "discord": "https://discord.gg/vexara"
+  },
+  "openapi": "/api-reference/openapi.yaml"
+}

@@ -1,0 +1,237 @@
+---
+title: "Toolkits"
+description: "Pre-built toolkits for AI Agent development and deployment"
+icon: "toolbox"
+---
+
+## React Toolkit
+
+Complete React component library for building wallet tracking interfaces.
+
+### Installation
+
+```bash path=null start=null
+npm install @vexara/react
+```
+
+### Components
+
+**WalletTracker**
+```tsx path=null start=null
+import { WalletTracker } from '@vexara/react';
+
+function App() {
+  return (
+    <WalletTracker
+      address="7xKXtg2CW87d97TXJSDpbD5jBkheTqA83TZRuJosgAsU"
+      showBalance={true}
+      showTransactions={true}
+      theme="dark"
+    />
+  );
+}
+```
+
+**TransactionList**
+```tsx path=null start=null
+import { TransactionList } from '@vexara/react';
+
+<TransactionList
+  address={walletAddress}
+  limit={50}
+  onTransactionClick={(tx) => console.log(tx)}
+/>
+```
+
+---
+
+## Next.js Template
+
+Production-ready Next.js template with VEXARA integration.
+
+```bash path=null start=null
+npx create-next-app --example vexara my-wallet-app
+```
+
+**Features:**
+- Server-side rendering with API routes
+- Authentication with NextAuth.js
+- Real-time updates via WebSocket
+- Responsive dashboard UI
+- TypeScript support
+
+---
+
+## Discord Bot
+
+Deploy a Discord bot for community wallet tracking.
+
+### Setup
+
+```bash path=null start=null
+git clone https://github.com/vexara/discord-bot
+cd discord-bot
+npm install
+```
+
+### Configuration
+
+```env path=null start=null
+DISCORD_TOKEN=your_discord_token
+VEXARA_API_KEY=your_api_key
+TRACKED_WALLETS=wallet1,wallet2,wallet3
+NOTIFICATION_CHANNEL=123456789
+```
+
+### Commands
+
+- `/track <address>` - Start tracking a wallet
+- `/untrack <address>` - Stop tracking
+- `/balance <address>` - Check wallet balance
+- `/alerts set <address> <condition>` - Set custom alert
+
+---
+
+## Telegram Bot
+
+Monitor wallets directly in Telegram.
+
+**Bot Username:** @vexaraBot
+
+### Features
+
+- Real-time transaction notifications
+- Portfolio summary on demand
+- Price alerts for tokens
+- Multi-wallet management
+
+---
+
+## Data Pipeline
+
+ETL toolkit for exporting VEXARA data to external systems.
+
+### Supported Destinations
+
+- PostgreSQL
+- MongoDB
+- Redis
+- Elasticsearch
+- Google BigQuery
+- AWS S3
+
+### Example Configuration
+
+```yaml path=null start=null
+source:
+  type: vexara
+  api_key: ${VEXARA_API_KEY}
+  wallets:
+    - 7xKXtg2CW87d97TXJSDpbD5jBkheTqA83TZRuJosgAsU
+
+destination:
+  type: postgresql
+  host: localhost
+  database: wallet_analytics
+  table: transactions
+
+transform:
+  - filter: transaction.amount > 100
+  - enrich: token_metadata
+  - aggregate: daily_volume
+```
+
+---
+
+## Monitoring Dashboard
+
+Grafana dashboard templates for operational monitoring.
+
+### Metrics Included
+
+- API request latency
+- WebSocket connection count
+- Transaction processing rate
+- Error rate by endpoint
+- Rate limit utilization
+
+### Installation
+
+```bash path=null start=null
+grafana-cli plugins install vexara-datasource
+```
+
+Import dashboard ID: `18492`
+
+---
+
+## Testing Framework
+
+Comprehensive testing utilities for CI/CD integration.
+
+```typescript path=null start=null
+import { vexaraTestClient } from '@vexara/testing';
+
+describe('Wallet Tracking', () => {
+  const client = new vexaraTestClient();
+
+  beforeEach(() => {
+    client.reset();
+  });
+
+  it('should track wallet successfully', async () => {
+    const wallet = await client.wallet.track('TEST_WALLET_ACTIVE');
+    expect(wallet.balance).toBeGreaterThan(0);
+  });
+
+  it('should receive transaction events', (done) => {
+    const sub = client.wallet.subscribe('TEST_WALLET_ACTIVE');
+    sub.on('transaction', (tx) => {
+      expect(tx.signature).toBeDefined();
+      done();
+    });
+    client.simulateTransaction('TEST_WALLET_ACTIVE');
+  });
+});
+```
+
+---
+
+## Mobile SDK
+
+Native mobile SDKs for iOS and Android.
+
+### iOS (Swift)
+
+```swift path=null start=null
+import vexara
+
+let client = vexara(apiKey: "your_api_key")
+
+client.wallet.track(address: "7xKXtg2CW87...") { result in
+    switch result {
+    case .success(let wallet):
+        print("Balance: \(wallet.balance)")
+    case .failure(let error):
+        print("Error: \(error)")
+    }
+}
+```
+
+### Android (Kotlin)
+
+```kotlin path=null start=null
+val client = vexara("your_api_key")
+
+client.wallet.track("7xKXtg2CW87...") { result ->
+    result.onSuccess { wallet ->
+        println("Balance: ${wallet.balance}")
+    }.onFailure { error ->
+        println("Error: $error")
+    }
+}
+```
+
+<Info>
+All toolkits are maintained by the VEXARA team and receive regular updates.
+</Info>
